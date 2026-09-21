@@ -14,7 +14,7 @@ export default function Announcements() {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/announcements/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/announcements/all');
       setAnnouncements(response.data);
     } catch (error) {
       console.error('Error fetching announcements:', error);
@@ -36,7 +36,7 @@ export default function Announcements() {
   const handlePost = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/announcements/add', {
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/announcements/add', {
         title, message, date, image
       });
       // Reset form
@@ -55,7 +55,7 @@ export default function Announcements() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this announcement?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/announcements/${id}`);
+      await axios.delete(`[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/announcements/${id}`);
       fetchAnnouncements();
     } catch (error) {
       console.error('Error deleting announcement:', error);

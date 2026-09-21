@@ -21,7 +21,7 @@ export default function AttendanceTracker() {
 
   const fetchPlayers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/players/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/all');
       setPlayers(response.data);
       
       // Initialize default records
@@ -35,7 +35,7 @@ export default function AttendanceTracker() {
 
   const fetchAttendanceForDate = async (selectedDate) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/attendance/${selectedDate}`);
+      const response = await axios.get(`[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/attendance/${selectedDate}`);
       if (response.data && response.data.records.length > 0) {
         const loadedRecords = {};
         response.data.records.forEach(record => {
@@ -63,7 +63,7 @@ export default function AttendanceTracker() {
 
   const fetchAnalytics = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/attendance/analytics/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/attendance/analytics/all');
       calculateStats(response.data);
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -104,7 +104,7 @@ export default function AttendanceTracker() {
         status: attendanceRecords[playerId]
       }));
 
-      await axios.post('http://localhost:5000/api/attendance/save', { date, records: recordsToSave });
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/attendance/save', { date, records: recordsToSave });
       alert(`Attendance for ${date} saved successfully!`);
       fetchAnalytics(); // Refresh stats
     } catch (error) {

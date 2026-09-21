@@ -21,7 +21,7 @@ export default function ClubLeague() {
 
   const fetchRoster = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/players/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/all');
       setRosterPlayers(response.data);
     } catch (error) {
       console.error('Error fetching roster:', error);
@@ -30,7 +30,7 @@ export default function ClubLeague() {
 
   const fetchAllLeagues = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/leagues/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/leagues/all');
       setAllLeagues(response.data);
     } catch (error) {
       console.error('Error fetching leagues:', error);
@@ -97,7 +97,7 @@ export default function ClubLeague() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/leagues/add', {
+      const response = await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/leagues/add', {
         name: leagueName,
         tablesCount,
         players: selectedPlayers,
@@ -120,7 +120,7 @@ export default function ClubLeague() {
 
   const updateMatch = async (matchId, winnerId, scoreVal, isCompleted) => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/leagues/${selectedLeague._id}/match`, {
+      const response = await axios.put(`[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/leagues/${selectedLeague._id}/match`, {
         matchId: matchId,
         winner: winnerId,
         score: scoreVal,
@@ -138,7 +138,7 @@ export default function ClubLeague() {
     if (e) e.stopPropagation(); // Prevent opening the league when clicking delete
     if (!window.confirm("Are you sure you want to permanently delete this league?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/leagues/${id}`);
+      await axios.delete(`[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/leagues/${id}`);
       if (selectedLeague && selectedLeague._id === id) {
         setSelectedLeague(null);
       }

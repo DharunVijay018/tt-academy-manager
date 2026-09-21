@@ -28,21 +28,21 @@ export default function FeeManager() {
 
   const fetchPlayers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/players/all');
+      const res = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/all');
       setPlayers(res.data);
     } catch (err) { console.error(err); }
   };
 
   const fetchPayments = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/payments/all');
+      const res = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/payments/all');
       setPayments(res.data);
     } catch (err) { console.error(err); }
   };
 
   const fetchExpenses = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/expenses/all');
+      const res = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/expenses/all');
       setExpenses(res.data);
     } catch (err) { console.error(err); }
   };
@@ -68,7 +68,7 @@ export default function FeeManager() {
   const handleQuickPay = async (player) => {
     if (!window.confirm(`Mark ₹${player.feeAmount} as paid for ${player.name} for ${displayMonth}?`)) return;
     try {
-      await axios.post('http://localhost:5000/api/payments/add', {
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/payments/add', {
         player: player._id, amount: player.feeAmount, datePaid: new Date().toISOString().split('T')[0], monthCovered: selectedMonth
       });
       fetchPayments();
@@ -78,7 +78,7 @@ export default function FeeManager() {
   const handleManualFeeSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/payments/add', {
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/payments/add', {
         player: selectedPlayer, amount: feeAmount, datePaid: feeDate, monthCovered: selectedMonth
       });
       alert('Payment recorded successfully!');
@@ -89,7 +89,7 @@ export default function FeeManager() {
   const handleExpenseSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/expenses/add', {
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/expenses/add', {
         title: expenseTitle, amount: expenseAmount, date: expenseDate, monthCovered: selectedMonth
       });
       alert('Expense logged successfully!');
@@ -100,7 +100,7 @@ export default function FeeManager() {
   const handleDeleteExpense = async (id) => {
     if (!window.confirm("Delete this expense?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/expenses/${id}`);
+      await axios.delete(`[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/expenses/${id}`);
       fetchExpenses();
     } catch (err) { alert('Failed to delete expense.'); }
   };

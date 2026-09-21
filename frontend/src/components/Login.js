@@ -28,7 +28,7 @@ export default function Login({ onLogin }) {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/login', { email, password });
+      const response = await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/admin/login', { email, password });
       onLogin(response.data); // Pass full admin data to App.js
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
@@ -39,7 +39,7 @@ export default function Login({ onLogin }) {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/register', {
+      const response = await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/admin/register', {
         email, phone, password, academyName, motto, logo
       });
       onLogin(response.data); // Auto-login after creation
@@ -53,7 +53,7 @@ export default function Login({ onLogin }) {
     setError('');
     setSuccess('');
     try {
-      await axios.post('http://localhost:5000/api/admin/reset', {
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/admin/reset', {
         contact: contactInfo, newPassword: password
       });
       setSuccess('Password updated! Please log in.');

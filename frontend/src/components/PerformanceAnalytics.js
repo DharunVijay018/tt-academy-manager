@@ -19,7 +19,7 @@ export default function PerformanceAnalytics() {
 
   const fetchPlayers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/players/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/all');
       setPlayers(response.data);
     } catch (error) {
       console.error('Error fetching players:', error);
@@ -28,7 +28,7 @@ export default function PerformanceAnalytics() {
 
   const fetchMatches = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/matches/all');
+      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/matches/all');
       setMatches(response.data);
     } catch (error) {
       console.error('Error fetching matches:', error);
@@ -47,7 +47,7 @@ export default function PerformanceAnalytics() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/matches/add', {
+      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/matches/add', {
         player1, player2, winner, score, date
       });
       alert('Match recorded successfully!');
