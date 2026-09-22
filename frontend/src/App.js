@@ -5,25 +5,22 @@ import AttendanceTracker from './components/AttendanceTracker';
 import FeeManager from './components/FeeManager';
 import ClubLeague from './components/ClubLeague';
 import Announcements from './components/Announcements';
+import Settings from './components/Settings'; // <-- NEW IMPORT
 import Login from './components/Login';
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [activeTab, setActiveTab] = useState('home'); 
   
-  // Load stored admin data from local storage
   const [admin, setAdmin] = useState(JSON.parse(localStorage.getItem('adminData')) || null);
-  
   const videoRef = useRef(null);
 
-  // Set Axios default header if admin is already logged in upon page refresh
   useEffect(() => {
     if (admin) {
       axios.defaults.headers.common['adminid'] = admin._id;
     }
   }, [admin]);
 
-  // Autoplay the video whenever showIntro is true
   useEffect(() => {
     if (videoRef.current && showIntro) {
       videoRef.current.play().catch((err) => {
@@ -35,22 +32,16 @@ function App() {
   const handleLogin = (adminData) => {
     setAdmin(adminData);
     localStorage.setItem('adminData', JSON.stringify(adminData));
-    
-    // Tell Axios to attach your specific ID to every backend request
     axios.defaults.headers.common['adminid'] = adminData._id;
   };
 
   const handleLogout = () => {
     setAdmin(null);
     localStorage.removeItem('adminData');
-    
-    // Remove the ID when logging out
     delete axios.defaults.headers.common['adminid'];
-    
     setActiveTab('home');
   };
 
-  // 1. ALWAYS SHOW INTRO FIRST (If active)
   if (showIntro) {
     return (
       <div className="fixed inset-0 w-screen h-screen bg-white z-50 flex items-center justify-center overflow-hidden">
@@ -72,34 +63,27 @@ function App() {
     );
   }
 
-  // 2. IF NOT LOGGED IN, SHOW LOGIN SCREEN
   if (!admin) {
     return <Login onLogin={handleLogin} />;
   }
 
-  // 3. MAIN DASHBOARD (If logged in and intro is done)
-  // DYNAMIC BRANDING VARIABLES
   const appLogo = admin.logo || "/Gemini_Generated_Image_dzzau5dzzau5dzza.png";
   const appName = admin.academyName || "TT Academy";
   const appMotto = admin.motto || "Success is where preparation and opportunity meet.";
 
-  // UPGRADED MENU ITEM NAME HERE
   const menuItems = [
     { id: 'home', label: 'Home Dashboard', icon: '🏠' },
     { id: 'players', label: 'Player Records', icon: '👥' },
     { id: 'attendance', label: 'Attendance Tracker', icon: '📅' },
-    { id: 'fees', label: 'Finance & Revenue', icon: '💳' }, // <-- Renamed!
+    { id: 'fees', label: 'Finance & Revenue', icon: '💳' }, 
     { id: 'league', label: 'Club League', icon: '🏓' }, 
     { id: 'announcements', label: 'Post Announcements', icon: '📢' },
+    { id: 'settings', label: 'Edit Branding', icon: '⚙️' }, // <-- NEW MENU ITEM
   ];
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden font-sans">
-      
-      {/* SIDEBAR NAVIGATION */}
       <aside className="w-72 bg-gray-100 flex flex-col border-r border-gray-200 z-10">
-        
-        {/* Dynamic Profile Section */}
         <div className="p-6 flex items-center gap-4 cursor-pointer hover:bg-gray-200 transition-colors">
           {admin.logo ? (
             <img src={admin.logo} alt="Logo" className="w-12 h-12 rounded-full object-cover shadow-sm bg-white" />
@@ -117,7 +101,6 @@ function App() {
           </button>
         </div>
 
-        {/* Menu Links */}
         <nav className="flex-1 py-4 space-y-1 overflow-y-auto">
           {menuItems.map((item) => (
             <button
@@ -136,10 +119,7 @@ function App() {
         </nav>
       </aside>
 
-      {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-y-auto relative bg-gray-50 flex flex-col">
-        
-        {/* Top Header Bar */}
         <header className="bg-white px-8 py-4 flex items-center justify-between shadow-sm border-b border-gray-200 z-10">
             <div className="flex items-center gap-3">
                 <img src={appLogo} alt="Academy Logo" className="h-10 w-10 object-contain rounded" />
@@ -149,10 +129,7 @@ function App() {
             </div>
         </header>
 
-        {/* DYNAMIC DASHBOARD CONTENT */}
         <div className="p-8 flex-1 relative">
-            
-            {/* HOME DASHBOARD WITH CUSTOM BRANDING */}
             {activeTab === 'home' && (
             <div className="h-full flex flex-col items-center justify-center relative -mt-10">
                 <img 
@@ -214,6 +191,16 @@ function App() {
                     <h2 className="text-2xl font-bold text-white flex items-center gap-3"><span className="text-yellow-500">📢</span> Academy Announcements</h2>
                 </div>
                 <div className="p-6 text-gray-800 bg-gray-50"><Announcements /></div>
+            </div>
+            )}
+
+            {/* NEW SETTINGS TAB */}
+            {activeTab === 'settings' && (
+            <div className="bg-[#1e2340] rounded-xl shadow-2xl border border-yellow-500/30 overflow-hidden">
+                <div className="bg-[#151930] p-6 border-b border-yellow-500/20">
+                    <h2 className="text-2xl font-bold text-white flex items-center gap-3"><span className="text-yellow-500">⚙️</span> Edit Academy Branding</h2>
+                </div>
+                <div className="p-6 text-gray-800 bg-gray-50"><Settings /></div>
             </div>
             )}
 
