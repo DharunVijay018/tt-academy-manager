@@ -45,4 +45,24 @@ router.post('/reset', async (req, res) => {
   }
 });
 
+// Update Academy Branding
+router.put('/update-branding/:id', async (req, res) => {
+  try {
+    const { academyName, motto, logo } = req.body;
+    
+    // Find the user and update their specific branding fields
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+      req.params.id, 
+      { academyName, motto, logo }, 
+      { new: true } // Returns the updated document
+    );
+    
+    if (!updatedAdmin) return res.status(404).json({ message: "Admin not found" });
+    
+    res.json({ message: "Branding updated successfully!", data: updatedAdmin });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
