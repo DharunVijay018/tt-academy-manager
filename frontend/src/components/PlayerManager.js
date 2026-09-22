@@ -13,7 +13,7 @@ export default function PlayerManager() {
 
   const fetchPlayers = async () => {
     try {
-      const response = await axios.get('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/all');
+      const response = await axios.get('https://tt-academy-manager.onrender.com/api/players/all');
       setPlayers(response.data);
     } catch (error) {
       console.error('Error fetching players:', error);
@@ -23,7 +23,7 @@ export default function PlayerManager() {
   const handleAddPlayer = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/add', { 
+      await axios.post('https://tt-academy-manager.onrender.com/api/players/add', { 
         name: name, 
         phone: phone,
         feeAmount: Number(feeAmount)
@@ -42,7 +42,7 @@ export default function PlayerManager() {
   const handleDeletePlayer = async (id) => {
     if (window.confirm('Are you sure you want to remove this player?')) {
       try {
-        await axios.delete(`[https://tt-academy-manager.onrender.com](https://tt-academy-manager.onrender.com)/api/players/${id}`);
+        await axios.delete(`https://tt-academy-manager.onrender.com/api/players/${id}`);
         fetchPlayers(); // Refresh the list after deleting
       } catch (error) {
         console.error('Error deleting player:', error);
