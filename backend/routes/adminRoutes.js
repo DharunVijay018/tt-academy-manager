@@ -1,9 +1,12 @@
-const nodemailer = require('nodemailer');
 const express = require('express');
 const router = express.Router();
 const Admin = require('../models/Admin');
+const { Resend } = require('resend');
 
-// 1. Register New Account (Now sends approval email)
+// Initialize Resend with your API Key
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// 1. Register New Account (Now sends HTTP approval email via Resend)
 router.post('/register', async (req, res) => {
   try {
     const existing = await Admin.findOne({ email: req.body.email });
@@ -12,21 +15,13 @@ router.post('/register', async (req, res) => {
     const newAdmin = new Admin(req.body);
     await newAdmin.save();
 
-    // Send the 1-Click Approval Email to you
+    // Send the 1-Click Approval Email via Resend
     try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.ADMIN_EMAIL,
-          pass: process.env.EMAIL_PASS
-        }
-      });
-
       const approveLink = `https://tt-academy-manager.onrender.com/api/admins/quick-approve/${newAdmin._id}`;
 
-      await transporter.sendMail({
-        from: process.env.ADMIN_EMAIL,
-        to: process.env.ADMIN_EMAIL, 
+      await resend.emails.send({
+        from: 'onboarding@resend.dev', // Resend's free testing sender address
+        to: process.env.ADMIN_EMAIL,   // This must match your registered Resend email exactly
         subject: 'New Academy Registration Request',
         html: `
           <h3>New SaaS Registration Request</h3>
@@ -48,7 +43,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// 2. Login (Now checks if user is approved)
+// 2. Login (Checks if user is approved)
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
