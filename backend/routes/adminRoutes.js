@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
 
     // Send the 1-Click Approval Email via Resend
     try {
-      const approveLink = `https://tt-academy-manager.onrender.com/api/admins/quick-approve/${newAdmin._id}`;
+      const approveLink = `https://tt-academy-manager.onrender.com/api/admin/quick-approve/${newAdmin._id}`;
 
       await resend.emails.send({
         from: 'onboarding@resend.dev', // Resend's free testing sender address
