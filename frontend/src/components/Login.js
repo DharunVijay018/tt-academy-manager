@@ -38,11 +38,19 @@ export default function Login({ onLogin }) {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     try {
-      const response = await axios.post('https://tt-academy-manager.onrender.com/api/admin/register', {
+      await axios.post('https://tt-academy-manager.onrender.com/api/admin/register', {
         email, phone, password, academyName, motto, logo
       });
-      onLogin(response.data); // Auto-login after creation
+      
+      // Prevent auto-login. Show success message and redirect to login page.
+      setSuccess('Registration successful! Please wait for admin approval.');
+      setView('login');
+      
+      // Clear sensitive form fields
+      setPassword('');
+      
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');
     }
@@ -89,8 +97,8 @@ export default function Login({ onLogin }) {
             <input type="password" required placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full p-3 border rounded focus:ring-2 focus:ring-yellow-500 bg-gray-50" />
             <button type="submit" className="w-full bg-yellow-500 text-gray-900 font-black py-3 rounded hover:bg-yellow-600 transition">LOGIN</button>
             <div className="flex justify-between text-sm font-bold text-gray-500 pt-2">
-              <button type="button" onClick={() => { setView('forgot'); setError(''); }} className="hover:text-yellow-600">Forgot Password?</button>
-              <button type="button" onClick={() => { setView('register'); setError(''); }} className="hover:text-yellow-600">Create Account</button>
+              <button type="button" onClick={() => { setView('forgot'); setError(''); setSuccess(''); }} className="hover:text-yellow-600">Forgot Password?</button>
+              <button type="button" onClick={() => { setView('register'); setError(''); setSuccess(''); }} className="hover:text-yellow-600">Create Account</button>
             </div>
           </form>
         )}
@@ -116,7 +124,7 @@ export default function Login({ onLogin }) {
             
             <button type="submit" className="w-full bg-slate-800 text-white font-black py-3 rounded hover:bg-slate-700 transition">CREATE ACCOUNT</button>
             <div className="text-center text-sm font-bold text-gray-500 pt-2">
-              <button type="button" onClick={() => setView('login')} className="hover:text-yellow-600">Back to Login</button>
+              <button type="button" onClick={() => { setView('login'); setError(''); setSuccess(''); }} className="hover:text-yellow-600">Back to Login</button>
             </div>
           </form>
         )}
@@ -130,7 +138,7 @@ export default function Login({ onLogin }) {
             
             <button type="submit" className="w-full bg-yellow-500 text-gray-900 font-black py-3 rounded hover:bg-yellow-600 transition">RESET PASSWORD</button>
             <div className="text-center text-sm font-bold text-gray-500 pt-2">
-              <button type="button" onClick={() => setView('login')} className="hover:text-yellow-600">Cancel</button>
+              <button type="button" onClick={() => { setView('login'); setError(''); setSuccess(''); }} className="hover:text-yellow-600">Cancel</button>
             </div>
           </form>
         )}
